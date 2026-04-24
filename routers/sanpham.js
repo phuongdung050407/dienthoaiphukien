@@ -3,7 +3,7 @@ var router = express.Router();
 var DienThoai = require('../models/dienthoai');
 var PhuKien = require('../models/phukien');
 
-router.get('/', async (req, res) => {
+router.get('/ql/:type', async (req, res) => {
     try {
         const type = req.params.type;
         const limit = 10;
@@ -24,8 +24,8 @@ router.get('/', async (req, res) => {
         } else {
             totalRows = await PhuKien.countDocuments();
             data = await PhuKien.find()
-                .populate('LoaiPhuKien')
-                .populate('TrangThai')
+                .populate('maLoaiPhuKien')
+                .populate('maTrangThai')
                 .sort({ _id: -1 })
                 .skip(skip)
                 .limit(limit);
@@ -65,8 +65,8 @@ router.post('/them/:type', async (req, res) => {
                 giaBan: req.body.giaBan,
                 giaGoc: req.body.giaGoc,
                 moTa: req.body.moTa,
-                LoaiPhuKien: req.body.LoaiPhuKien,
-                TrangThai: req.body.TrangThai,
+                maLoaiPhuKien: req.body.maLoaiPhuKien,
+                maTrangThai: req.body.maTrangThai,
                 daBan: 0
             });
         }
@@ -106,7 +106,7 @@ router.get('/sanpham_chitiet/:id/:type', async (req, res) => {
     var { id, type } = req.params;
     var sp = (type == 'dienthoai')
         ? await DienThoai.findById(id).populate('maHangDienThoai')
-        : await PhuKien.findById(id).populate('LoaiPhuKien');
+        : await PhuKien.findById(id).populate('maLoaiPhuKien');
 
     res.render('sanpham_chitiet', {
         title: 'Chi tiết sản phẩm',

@@ -36,17 +36,17 @@ router.post('/dangnhap', async (req, res) => {
 });
 
 router.get('/dangxuat', (req, res) => {
-    if (req.session.maTaiKhoan) {
-        // Xóa session
-        delete req.session.maTaiKhoan;
-        delete req.session.tenTaiKhoan;
-        delete req.session.quyenHan;
+    delete req.session.maTaiKhoan;
+    delete req.session.tenTaiKhoan;
+    delete req.session.quyenHan;
 
-        res.redirect('/');
-    } else {
-        req.session.error = 'Người dùng chưa đăng nhập.';
-        res.redirect('/error');
-    }
+    //if (req.session.maTaiKhoan) {
+
+    //   res.redirect('/');
+    //} else {
+    //  req.session.error = 'Người dùng chưa đăng nhập.';
+    //res.redirect('/error');
+    //}
 });
 
 module.exports = router;
