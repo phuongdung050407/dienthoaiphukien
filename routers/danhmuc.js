@@ -32,7 +32,6 @@ router.get('/:type/:id', async (req, res) => {
 
     try {
         if (type === 'dienthoai') {
-            // Lọc theo maHangDienThoai
             data = await DienThoai.find({ maHangDienThoai: id }).populate('HangDienThoai').lean();
             if (data.length > 0) pageTitle = data[0].maHangDienThoai.tenHangDienThoai;
         } else {

@@ -50,13 +50,23 @@ router.post('/them/:type', async (req, res) => {
     try {
         if (type == 'dienthoai') {
             await DienThoai.create({
-                ...req.body,
+                tenDienThoai: req.body.tenDienThoai,
+                giaBan: req.body.giaBan,
+                giaGoc: req.body.giaGoc,
+                moTa: req.body.moTa,
+                maHangDienThoai: req.body.maHangDienThoai,
+                maTrangThai: req.body.maTrangThai,
                 daBan: 0,
                 hinhAnh: req.body.hinhAnh
             });
         } else {
             await PhuKien.create({
-                ...req.body,
+                tenPhuKien: req.body.tenPhuKien,
+                giaBan: req.body.giaBan,
+                giaGoc: req.body.giaGoc,
+                moTa: req.body.moTa,
+                LoaiPhuKien: req.body.LoaiPhuKien,
+                TrangThai: req.body.TrangThai,
                 daBan: 0
             });
         }
