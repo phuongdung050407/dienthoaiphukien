@@ -33,10 +33,10 @@ router.get('/:type/:id', async (req, res) => {
 
     try {
         if (type == 'dienthoai') {
-            var data = await DienThoai.find({ maHangDienThoai: id }).populate('HangDienThoai').lean();
+            var data = await DienThoai.find({ HangDienThoai: id }).populate('HangDienThoai').lean();
             if (data.length > 0) pageTitle = data[0].HangDienThoai.tenHangDienThoai;
         } else {
-            var data = await PhuKien.find({ maLoaiPhuKien: id }).populate('LoaiPhuKien').lean();
+            var data = await PhuKien.find({ LoaiPhuKien: id }).populate('LoaiPhuKien').lean();
             if (data.length > 0) pageTitle = data[0].LoaiPhuKien.tenLoaiPhuKien;
         }
 
