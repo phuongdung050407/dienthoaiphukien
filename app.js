@@ -20,13 +20,12 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', express.static(path.join(__dirname, 'public')));
-app.use(express.static('public'));
 
 app.use(session({
     name: '',
     secret: 'MAPD_Tech_Space_Secret_Key',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000
     }
@@ -53,6 +52,7 @@ app.use('/', authRouter);
 app.use('/sanpham', sanphamRouter);
 app.use('/taikhoan', taikhoanRouter);
 app.use('/danhmuc', danhmucRouter);
+
 app.listen(3000, () => {
     console.log('Server is running at https://dienthoaiphukien.onrender.com');
 });
