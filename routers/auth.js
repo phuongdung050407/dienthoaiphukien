@@ -39,6 +39,7 @@ router.get('/dangxuat', (req, res) => {
     delete req.session.maTaiKhoan;
     delete req.session.tenTaiKhoan;
     delete req.session.quyenHan;
+    res.redirect('/');
 
     //if (req.session.maTaiKhoan) {
 
