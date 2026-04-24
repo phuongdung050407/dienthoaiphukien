@@ -8,39 +8,47 @@ router.get('/dangnhap', (req, res) => {
 });
 
 router.post('/dangnhap', async (req, res) => {
-    if (req.session.maTaiKhoan) return res.redirect('/');
-    var tenDangNhap = req.body.tenDangNhap;
-    var matKhau = req.body.matKhau;
-    var taikhoan = await TaiKhoan.findOne({ tenDangNhap: tenDangNhap });
 
-    if (taikhoan) {
-        var match = bcrypt.compareSync(matKhau, taikhoan.matKhau);
-        if (match) {
-            if (taikhoan.khoa == 0) {
-                req.session.error = 'Tài khoản của bạn đã bị khóa!';
-                res.redirect('/dangnhap');
-            }
-
-            req.session.maTaiKhoan = taikhoan.maTaiKhoan;
-            req.session.tenTaiKhoan = taikhoan.tenTaiKhoan;
-            req.session.quyenHan = taikhoan.quyenHan;
-
-            req.session.success = 'Chào mừng ' + taikhoan.tenTaiKhoan + ' quay trở lại!';
-            res.redirect('/');
-        } else {
-            req.session.error = 'Mật khẩu không chính xác!';
-            res.redirect('/dangnhap');
-        }
+    if (req.session.maTaiKhoan) {
+        req.session.error = 'Người dùng đã đăng nhập rồi.';
+        res.redirect('/error');
     } else {
-        req.session.error = 'Tên đăng nhập không tồn tại!';
-        res.redirect('/dangnhap');
+        var taikhoan = await TaiKhoan.findOne({ tenDangNhap: req.body.tenDangNhap }).exec();
+        if (taikhoan) {
+            if (bcrypt.compareSync(req.body.matKhau, taikhoan.matKhau)) {
+                if (taikhoan.khoa == 0) {
+                    req.session.error = 'Người dùng đã bị khóa tài khoản.';
+                    res.redirect('/error');
+                } else {
+                    req.session.maTaiKhoan = taikhoan.maTaiKhoan;
+                    req.session.tenTaiKhoan = taikhoan.tenTaiKhoan;
+                    req.session.quyenHan = taikhoan.quyenHan;
+
+                    res.redirect('/');
+                }
+            } else {
+                req.session.error = 'Mật khẩu không đúng.';
+                res.redirect('/error');
+            }
+        } else {
+            req.session.error = 'Tên đăng nhập không tồn tại.';
+            res.redirect('/error');
+        }
     }
 });
 
 router.get('/dangxuat', (req, res) => {
-    req.session.destroy(() => {
+    if (req.session.maTaiKhoan) {
+        // Xóa session
+        delete req.session.maTaiKhoan;
+        delete req.session.tenTaiKhoan;
+        delete req.session.quyenHan;
+
         res.redirect('/');
-    });
+    } else {
+        req.session.error = 'Người dùng chưa đăng nhập.';
+        res.redirect('/error');
+    }
 });
 
 module.exports = router;
