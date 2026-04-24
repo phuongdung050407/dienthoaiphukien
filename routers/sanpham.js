@@ -3,7 +3,7 @@ var router = express.Router();
 var DienThoai = require('../models/dienthoai');
 var PhuKien = require('../models/phukien');
 
-router.get('/ql/:type', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const type = req.params.type;
         const limit = 10;
