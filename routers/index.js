@@ -64,8 +64,8 @@ router.get('/timkiem', async (req, res) => {
         ]);
 
         let combined = [
-            ...dt.map(item => ({ ...item, id: item._id, ten: item.tenDienThoai, loai: 'dienthoai' })),
-            ...pk.map(item => ({ ...item, id: item._id, ten: item.tenPhuKien, loai: 'phukien' }))
+            dt.map(item => ({ id: item._id, ten: item.tenDienThoai, loai: 'dienthoai' })),
+            pk.map(item => ({ id: item._id, ten: item.tenPhuKien, loai: 'phukien' }))
         ];
 
         if (sort === 'gia_tang') combined.sort((a, b) => a.giaBan - b.giaBan);
