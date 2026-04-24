@@ -89,6 +89,11 @@
                                             <div class="text-danger fw-bold fs-5">
                                                 <%= item.giaBan.toLocaleString() %> đ
                                             </div>
+                                            <% if (item.giaGoc> item.giaBan) { %>
+                                                <small class="text-muted text-decoration-line-through">
+                                                    <%= item.giaGoc.toLocaleString() %> đ
+                                                </small>
+                                                <% } %>
                                         </div>
                                         <span class="badge bg-light text-primary border small">Giá tốt - Chính
                                             hãng</span>
