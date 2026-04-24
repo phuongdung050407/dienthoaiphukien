@@ -54,5 +54,5 @@ app.use('/sanpham', sanphamRouter);
 app.use('/taikhoan', taikhoanRouter);
 app.use('/danhmuc', danhmucRouter);
 app.listen(3000, () => {
-    console.log('Server is running at 127.0.0.1:3000');
+    console.log('Server is running at https://dienthoaiphukien.onrender.com');
 });

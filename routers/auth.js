@@ -9,12 +9,12 @@ router.get('/dangnhap', (req, res) => {
 
 router.post('/dangnhap', async (req, res) => {
     if (req.session.maTaiKhoan) return res.redirect('/');
-
-    const { tenDangNhap, matKhau } = req.body;
-    const taikhoan = await TaiKhoan.findOne({ tenDangNhap: tenDangNhap });
+    var tenDangNhap = req.body.tenDangNhap;
+    var matKhau = req.body.matKhau;
+    var taikhoan = await TaiKhoan.findOne({ tenDangNhap: tenDangNhap });
 
     if (taikhoan) {
-        const match = bcrypt.compareSync(matKhau, taikhoan.matKhau);
+        var match = bcrypt.compareSync(matKhau, taikhoan.matKhau);
         if (match) {
             if (taikhoan.khoa == 0) {
                 req.session.error = 'Tài khoản của bạn đã bị khóa!';
