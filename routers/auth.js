@@ -8,7 +8,6 @@ router.get('/dangnhap', (req, res) => {
 });
 
 router.post('/dangnhap', async (req, res) => {
-
     if (req.session.maTaiKhoan) {
         req.session.error = 'Người dùng đã đăng nhập rồi.';
         res.redirect('/error');
@@ -23,7 +22,6 @@ router.post('/dangnhap', async (req, res) => {
                     req.session.maTaiKhoan = taikhoan.maTaiKhoan;
                     req.session.tenTaiKhoan = taikhoan.tenTaiKhoan;
                     req.session.quyenHan = taikhoan.quyenHan;
-
                     res.redirect('/');
                 }
             } else {
