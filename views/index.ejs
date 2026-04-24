@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MAPD Tech Space - Cửa hàng điện thoại và phụ kiện tại An Giang</title>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div id="khungtrang">
+        <div id="header">
+            <%- include('header') %>
+        </div>
+        <div id="sticky-menu-wrapper">
+            <div class="custom-sticky-menu">
+                <%- include('menungang') %>
+            </div>
+        </div>
+
+        <div id="content">
+            <div id="cottrai"></div>
+
+            <div id="phangiua" class="container-fluid"
+                style="background-color: white !important; border-radius: 15px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 20px;">
+                <nav aria-label="breadcrumb" class="mt-3">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active fw-bold text-primary" aria-current="page"><i
+                                class="bi bi-house-door-fill"></i> Trang chủ</li>
+                    </ol>
+                </nav>
+                <h3 class="fw-bold mb-4 text-primary" id="hienthisanpham"><i class="bi bi-phone"></i> Điện thoại mới
+                    nhất</h3>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                    <% dienthoai.forEach(item=> { %>
+                        <div class='col'>
+                            <div class='card h-100 shadow-sm border-0 product-card position-relative'>
+                                <a href="/sanpham/sanpham_chitiet/<%= item._id %>/dienthoai"
+                                    class="text-decoration-none text-dark d-flex flex-column h-100">
+                                    <div class="product-img-wrapper">
+                                        <img src="/images/<%= item.hinhAnh %>" class="card-img-top product-img">
+                                    </div>
+                                    <div class="card-body text-center pt-0 flex-grow-1">
+                                        <h6 class="card-title fw-bold mb-2">
+                                            <%= item.tenDienThoai %>
+                                        </h6>
+                                        <div class="price-box mb-3">
+                                            <div class="text-danger fw-bold fs-5">
+                                                <%= item.giaBan.toLocaleString() %> đ
+                                            </div>
+                                            <% if (item.giaGoc> item.giaBan) { %>
+                                                <small class="text-muted text-decoration-line-through">
+                                                    <%= item.giaGoc.toLocaleString() %> đ
+                                                </small>
+                                                <% } %>
+                                        </div>
+                                        <span class="badge bg-light text-dark border small">
+                                            <%= item.boNho %> | <%= item.dungLuongPin %>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+
+                <h3 class="fw-bold mb-4 text-primary mt-5 pt-4 border-top" id="hienthiphukien"><i
+                        class="bi bi-headset"></i> Phụ kiện mới nhất</h3>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                    <% phukien.forEach(item=> { %>
+                        <div class='col'>
+                            <div class='card h-100 shadow-sm border-0 product-card position-relative'>
+                                <a href="/sanpham/sanpham_chitiet/<%= item._id %>/phukien"
+                                    class="text-decoration-none text-dark d-flex flex-column h-100">
+                                    <div class="product-img-wrapper">
+                                        <img src="/images/<%= item.hinhAnh %>" class="card-img-top product-img">
+                                    </div>
+                                    <div class="card-body text-center pt-0 flex-grow-1">
+                                        <h6 class="card-title fw-bold mb-2">
+                                            <%= item.tenPhuKien %>
+                                        </h6>
+                                        <div class="price-box mb-3">
+                                            <div class="text-danger fw-bold fs-5">
+                                                <%= item.giaBan.toLocaleString() %> đ
+                                            </div>
+                                        </div>
+                                        <span class="badge bg-light text-primary border small">Giá tốt - Chính
+                                            hãng</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+
+                <div class="text-center my-4">
+
+                </div>
+
+                <div id="cotphai"></div>
+
+
+            </div>
+        </div>
+        <div id="footer">
+            <%- include('footer') %>
+        </div>
+    </div>
+
+
+    <style>
+        #sticky-menu-wrapper {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #khungtrang {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #header,
+        #sticky-menu-wrapper,
+        #footer {
+            flex: none;
+        }
+
+        #content {
+            flex: 1 0 auto;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #footer {
+            flex-shrink: 0;
+        }
+
+        .menu-ngang-container {
+            margin-top: 0 !important;
+        }
+
+        .custom-sticky-menu .nav-link {
+            color: #3839af !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: transparent !important;
+        }
+
+        .custom-sticky-menu .nav-link:hover {
+            color: white !important;
+            background-color: #3839af !important;
+            border-radius: 8px;
+        }
+
+        .custom-sticky-menu .nav-link.active {
+            background-color: #3839af !important;
+            color: white !important;
+            border-radius: 8px;
+        }
+
+        .custom-sticky-menu .dropdown-menu {
+            border: none;
+            border-top: 3px solid #3839af;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-sticky-menu .dropdown-item:hover {
+            background-color: rgba(56, 57, 175, 0.1);
+            color: #3839af !important;
+            padding-left: 20px;
+            transition: all 0.2s;
+        }
+
+        #sticky-menu-wrapper {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: white;
+            padding: 5px 0;
+        }
+
+        #content {
+            display: flow-root;
+            width: 100%;
+            min-height: 600px;
+            height: auto !important;
+            padding-bottom: 50px;
+            background-color: #ffffff;
+        }
+
+        .slideshow-img {
+            height: 480px;
+            object-fit: cover;
+        }
+
+        .product-card {
+            transition: all 0.3s ease;
+            border-radius: 20px !important;
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        .product-img-wrapper {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            background-color: #fff;
+        }
+
+        .product-img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.08);
+        }
+
+        .card-title {
+            height: 3rem;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .price-box {
+            min-height: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</html>

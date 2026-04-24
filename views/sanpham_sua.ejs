@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div id="khungtrang">
+        <%- include('header') %>
+            <div id="sticky-menu-wrapper">
+                <div class="custom-sticky-menu">
+                    <%- include('menungang') %>
+                </div>
+            </div>
+
+            <div id="content">
+                <div class="container py-4">
+                    <div
+                        class="card shadow border-0 border-start border-<%= type == 'dienthoai' ? 'primary' : 'warning' %> border-5">
+                        <div class="card-header bg-white text-<%= type == 'dienthoai' ? 'primary' : 'warning' %>">
+                            <h5 class="mb-0 fw-bold"><i class="bi bi-pencil-square"></i> CHỈNH SỬA <%=
+                                    (type=='dienthoai' ? 'ĐIỆN THOẠI' : 'PHỤ KIỆN' ) %>
+                            </h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <form action="/sanpham/sua/<%= type %>/<%= id %>" method="POST">
+
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Hình ảnh sản phẩm (Lấy từ folder
+                                        public/images)</label>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3">
+                                            <div class="border rounded bg-white d-flex align-items-center justify-content-center shadow-sm"
+                                                style="height: 150px; overflow: hidden;">
+                                                <img src="/images/<%= data.hinhAnh %>" id="imgPreview"
+                                                    class="w-100 h-100" style="object-fit: contain;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <label class="small text-muted mb-1">Tên file hình ảnh:</label>
+                                            <input type="text" name="hinhAnh" id="hinhAnhInput" class="form-control"
+                                                value="<%= data.hinhAnh %>" oninput="updatePreview()">
+                                            <small class="text-muted fst-italic mt-2 d-block">* Nhập chính xác tên file
+                                                ảnh (ví dụ: iphone15.jpg) có trong thư mục public/images.</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label fw-bold">Tên sản phẩm</label>
+                                        <input type="text"
+                                            name="<%= type == 'dienthoai' ? 'tenDienThoai' : 'tenPhuKien' %>"
+                                            class="form-control"
+                                            value="<%= type == 'dienthoai' ? data.tenDienThoai : data.tenPhuKien %>"
+                                            required>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold text-primary">Giá gốc (VNĐ)</label>
+                                        <input type="number" name="giaGoc" class="form-control"
+                                            value="<%= data.giaGoc %>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold text-danger">Giá bán hiện tại (VNĐ)</label>
+                                        <input type="number" name="giaBan" class="form-control"
+                                            value="<%= data.giaBan %>" required>
+                                    </div>
+
+                                    <% if(type=='dienthoai' ) { %>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Hãng sản xuất</label>
+                                            <select name="maHangDienThoai" class="form-select border-primary-subtle">
+                                                <% dsHangDT.forEach(h=> { %>
+                                                    <option value="<%= h._id %>" <%=data.maHangDienThoai &&
+                                                        data.maHangDienThoai.toString()==h._id.toString() ? 'selected'
+                                                        : '' %>>
+                                                        <%= h.tenHangDienThoai %>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Bộ nhớ</label>
+                                            <input type="text" name="boNho" class="form-control"
+                                                value="<%= data.boNho %>">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Pin</label>
+                                            <input type="text" name="dungLuongPin" class="form-control"
+                                                value="<%= data.dungLuongPin %>">
+                                        </div>
+                                        <% } else { %>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label fw-bold">Loại phụ kiện</label>
+                                                <select name="maLoaiPhuKien" class="form-select border-warning-subtle">
+                                                    <% dsLoaiPK.forEach(l=> { %>
+                                                        <option value="<%= l._id %>" <%=data.maLoaiPhuKien &&
+                                                            data.maLoaiPhuKien.toString()==l._id.toString() ? 'selected'
+                                                            : '' %>>
+                                                            <%= l.tenLoaiPhuKien %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label fw-bold">Hãng phụ kiện</label>
+                                                <select name="maHangPhuKien" class="form-select border-warning-subtle">
+                                                    <% dsHangPK.forEach(hpk=> { %>
+                                                        <option value="<%= hpk._id %>" <%=data.maHangPhuKien &&
+                                                            data.maHangPhuKien.toString()==hpk._id.toString()
+                                                            ? 'selected' : '' %>>
+                                                            <%= hpk.tenHangPhuKien %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                            <% } %>
+
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label fw-bold">Số lượng tồn kho</label>
+                                                    <input type="number" name="soLuong" class="form-control"
+                                                        value="<%= data.soLuong %>" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label fw-bold">Trạng thái kinh doanh</label>
+                                                    <select name="maTrangThai" class="form-select">
+                                                        <% dsTrangThai.forEach(tt=> { %>
+                                                            <option value="<%= tt._id %>" <%=data.maTrangThai &&
+                                                                data.maTrangThai.toString()==tt._id.toString()
+                                                                ? 'selected' : '' %>>
+                                                                <%= tt.tenTrangThai %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-12 mb-4">
+                                                    <label class="form-label fw-bold">Mô tả chi tiết sản phẩm</label>
+                                                    <textarea name="moTa" class="form-control" rows="5"
+                                                        id="editor"><%= data.moTa %></textarea>
+                                                </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end gap-2 border-top pt-3">
+                                    <a href="/sanpham/ql/<%= type %>" class="btn btn-light border px-4 rounded-pill">HỦY
+                                        BỎ</a>
+                                    <button type="submit"
+                                        class="btn btn-<%= type == 'dienthoai' ? 'primary' : 'warning' %> px-5 fw-bold rounded-pill shadow-sm">
+                                        <i class="bi bi-save"></i> LƯU THAY ĐỔI
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="footer">
+                <%- include('footer') %>
+            </div>
+    </div>
+
+    <script>
+        // Hàm cập nhật preview ảnh tức thời khi sửa tên file
+        function updatePreview() {
+            const fileName = document.getElementById('hinhAnhInput').value;
+            const img = document.getElementById('imgPreview');
+            if (fileName.trim() !== "") {
+                img.src = "/images/" + fileName;
+            }
+        }
+    </script>
+</body>
+
+<style>
+    #sticky-menu-wrapper {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #khungtrang {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    #header,
+    #sticky-menu-wrapper,
+    #footer {
+        flex: none;
+    }
+
+    #content {
+        flex: 1 0 auto;
+    }
+
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #footer {
+        flex-shrink: 0;
+    }
+
+    .menu-ngang-container {
+        margin-top: 0 !important;
+    }
+
+    .custom-sticky-menu .nav-link {
+        color: #3839af !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: transparent !important;
+    }
+
+    .custom-sticky-menu .nav-link:hover {
+        color: white !important;
+        background-color: #3839af !important;
+        border-radius: 8px;
+    }
+
+    .custom-sticky-menu .nav-link.active {
+        background-color: #3839af !important;
+        color: white !important;
+        border-radius: 8px;
+    }
+
+    .custom-sticky-menu .dropdown-menu {
+        border: none;
+        border-top: 3px solid #3839af;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-sticky-menu .dropdown-item:hover {
+        background-color: rgba(56, 57, 175, 0.1);
+        color: #3839af !important;
+        padding-left: 20px;
+        transition: all 0.2s;
+    }
+
+    #sticky-menu-wrapper {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: white;
+        padding: 5px 0;
+    }
+
+    #content {
+        display: flow-root;
+        width: 100%;
+        min-height: 600px;
+        height: auto !important;
+        padding-bottom: 50px;
+        background-color: #ffffff;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</html>

@@ -1,0 +1,81 @@
+<nav class="navbar navbar-expand-lg shadow-sm py-3" style="height:100px; background-color: #3839af;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="images/logo-header-ngang-final.jpg" alt="MAPD-Logo" width="160">
+        </a>
+
+        <button class="navbar-toggler border-light" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-bold">
+                <li class="nav-item"><a class="nav-link text-white" href="/">Trang chủ</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Danh mục
+                    </a>
+                    <ul class="dropdown-menu shadow border-0 mt-2">
+                        <li><a class="dropdown-item py-2" href="/danhmuc/dienthoai"><i class="bi bi-phone"></i> Điện
+                                thoại</a></li>
+                        <li><a class="dropdown-item py-2" href="/danhmuc/phukien"><i class="bi bi-headphones"></i> Phụ
+                                kiện</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <form class="d-flex" role="search" action="/timkiem" method="GET" style="margin-right:20px;">
+                <input type="hidden" name="do" value="timkiem">
+                <div class="input-group">
+                    <input class="form-control shadow-none border-0" type="search" name="tukhoa"
+                        placeholder="Tìm sản phẩm..." style="width:300px; border-radius: 20px 0 0 20px;">
+                    <button class="btn btn-warning" type="submit"
+                        style="font-weight:bold; color:#3839af; border-radius: 0 20px 20px 0;">Tìm</button>
+                </div>
+            </form>
+
+            <div class="d-flex align-items-center me-3">
+                <% if(!session.quyenHan || typeof session==="undefined" ){%>
+                    <div class="btn-group">
+                        <a href="/dangnhap" class="btn btn-outline-light rounded-pill px-3 me-2">Đăng
+                            nhập</a>
+                    </div>
+                    <%} else if(session.quyenHan==1) {%>
+                        <div class="dropdown me-2">
+                            <button class="btn btn-warning dropdown-toggle fw-bold shadow-sm" type="button"
+                                data-bs-toggle="dropdown">
+                                <i class="bi bi-shield-lock"></i> ADMIN
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                                <li><a class="dropdown-item" href="/sanpham">Quản lý sản phẩm</a></li>
+                                <li><a class="dropdown-item" href="/profile">Quản lý tài khoản</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item text-danger" href="/dangxuat">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                        <% } else {%>
+                            <div class="dropdown">
+                                <a class="btn btn-link text-white text-decoration-none fw-bold dropdown-toggle" href="#"
+                                    data-bs-toggle="dropdown">
+                                    Hi, <% session.tenTaiKhoan %>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                                    <li><a class="dropdown-item" href="/profile">Thông tin cá nhân</a></li>
+                                    <li><a class="dropdown-item" href="/sanpham">Quản lý sản phẩm</a>
+
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item text-danger" href="/dangxuat">Đăng xuất</a></li>
+                                </ul>
+                            </div>
+
+                            <% }%>
+            </div>
+        </div>
+    </div>
+</nav>

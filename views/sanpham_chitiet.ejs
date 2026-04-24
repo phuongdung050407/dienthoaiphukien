@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div id="khungtrang">
+        <%- include('header') %>
+            <div id="sticky-menu-wrapper">
+                <div class="custom-sticky-menu">
+                    <%- include('menungang') %>
+                </div>
+            </div>
+
+            <div id="content">
+                <div id="cottrai"></div>
+                <div id="phangiua" class="container-fluid"
+                    style="background-color: white; border-radius: 15px; padding: 30px; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb" style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                            <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">
+                                <%= loai==='dienthoai' ? sanpham.tenDienThoai : sanpham.tenPhuKien %>
+                            </li>
+                        </ol>
+                    </nav>
+
+                    <div class="row mt-4">
+                        <div class="col-md-5">
+                            <div class="main-img-container border rounded-4 p-3 text-center bg-white shadow-sm position-relative"
+                                style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+                                <img id="main-img" src="/images/<%= sanpham.hinhAnh %>"
+                                    class="img-fluid <%= sanpham.soLuong === 0 ? 'opacity-50 grayscale' : '' %>"
+                                    style="max-height: 380px; object-fit: contain;">
+
+                                <% if (sanpham.soLuong===0) { %>
+                                    <div
+                                        class="position-absolute top-50 start-50 translate-middle bg-dark bg-opacity-75 text-white px-4 py-2 rounded-pill fw-bold">
+                                        HẾT HÀNG TẠM THỜI
+                                    </div>
+                                    <% } %>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7 ps-md-5">
+                            <h1 class="fw-bold text-dark mb-3">
+                                <%= loai==='dienthoai' ? sanpham.tenDienThoai : sanpham.tenPhuKien %>
+                            </h1>
+
+                            <div class="price-section p-3 bg-light rounded-4 mb-4">
+                                <div class="d-flex align-items-center gap-3">
+                                    <h2 class="fw-bold text-danger mb-0">
+                                        <%= sanpham.giaBan.toLocaleString() %> đ
+                                    </h2>
+                                    <% if (sanpham.giaGoc> sanpham.giaBan) { %>
+                                        <span class="text-muted text-decoration-line-through fs-5">
+                                            <%= sanpham.giaGoc.toLocaleString() %> đ
+                                        </span>
+                                        <% } %>
+                                </div>
+                            </div>
+
+                            <div class="specs-box bg-white p-2 rounded-3 border">
+                                <table class="table table-sm table-borderless mb-0">
+                                    <tr>
+                                        <td class="text-secondary" style="width: 35%;">Tình trạng:</td>
+                                        <td>
+                                            <% if (sanpham.soLuong> 0) { %>
+                                                <span class="text-success fw-bold"><i
+                                                        class="bi bi-check-circle-fill"></i> Còn hàng (<%=
+                                                        sanpham.soLuong %>)</span>
+                                                <% } else { %>
+                                                    <span class="text-danger fw-bold"><i
+                                                            class="bi bi-x-circle-fill"></i> Hết hàng</span>
+                                                    <% } %>
+                                        </td>
+                                    </tr>
+                                    <% if (loai==='dienthoai' ) { %>
+                                        <tr>
+                                            <td class="text-secondary">Dung lượng pin:</td>
+                                            <td class="fw-bold">
+                                                <%= sanpham.dungLuongPin || 'Đang cập nhật' %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-secondary">Bộ nhớ trong:</td>
+                                            <td class="fw-bold">
+                                                <%= sanpham.boNho || 'Đang cập nhật' %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                            <tr>
+                                                <td class="text-secondary">Đã bán:</td>
+                                                <td><span class="badge bg-light text-dark border">
+                                                        <%= sanpham.daBan || 0 %> sản phẩm
+                                                    </span></td>
+                                            </tr>
+                                </table>
+                            </div>
+
+                            <div class="mt-4">
+                                <h5 class="fw-bold text-primary border-bottom pb-2">Mô tả sản phẩm:</h5>
+                                <p class="text-secondary" style="white-space: pre-line;">
+                                    <%= sanpham.moTa %>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="cotphai"></div>
+            </div>
+
+            <%- include('footer') %>
+    </div>
+</body>
+
+<style>
+    #sticky-menu-wrapper {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #khungtrang {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    #header,
+    #sticky-menu-wrapper,
+    #footer {
+        flex: none;
+    }
+
+    #content {
+        flex: 1 0 auto;
+    }
+
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #footer {
+        flex-shrink: 0;
+    }
+
+    .menu-ngang-container {
+        margin-top: 0 !important;
+    }
+
+    .custom-sticky-menu .nav-link {
+        color: #3839af !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: transparent !important;
+    }
+
+    .custom-sticky-menu .nav-link:hover {
+        color: white !important;
+        background-color: #3839af !important;
+        border-radius: 8px;
+    }
+
+    .custom-sticky-menu .nav-link.active {
+        background-color: #3839af !important;
+        color: white !important;
+        border-radius: 8px;
+    }
+
+    .custom-sticky-menu .dropdown-menu {
+        border: none;
+        border-top: 3px solid #3839af;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-sticky-menu .dropdown-item:hover {
+        background-color: rgba(56, 57, 175, 0.1);
+        color: #3839af !important;
+        padding-left: 20px;
+        transition: all 0.2s;
+    }
+
+    #sticky-menu-wrapper {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: white;
+        padding: 5px 0;
+    }
+
+    #content {
+        display: flow-root;
+        width: 100%;
+        min-height: 600px;
+        height: auto !important;
+        padding-bottom: 50px;
+        background-color: #ffffff;
+    }
+
+    .grayscale {
+        filter: grayscale(100%);
+    }
+
+    .cursor-not-allowed {
+        cursor: not-allowed !important;
+    }
+
+    .opacity-50 {
+        opacity: 0.5;
+    }
+
+    .product-card-related {
+        transition: 0.3s;
+        border-radius: 20px !important;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #eee !important;
+    }
+
+    .product-card-related:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .related-img-wrapper {
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .related-img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        transition: 0.5s;
+    }
+
+    .product-card-related:hover .related-img {
+        transform: scale(1.1);
+    }
+
+    .thumb-img {
+        transition: 0.2s;
+        opacity: 0.7;
+        border: 1px solid #ddd;
+    }
+
+    .thumb-img:hover,
+    .thumb-img.border-primary {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</html>

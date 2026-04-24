@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div id="khungtrang">
+        <%- include('header') %>
+            <div id="sticky-menu-wrapper">
+                <div class="custom-sticky-menu"><%- include('menungang') %></div>
+            </div>
+
+            <div id="content" class="container-fluid py-4">
+                <div id="cottrai"></div>
+
+                <div id="phangiua" class="p-4 bg-white rounded-4 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h3 class="fw-bold mb-0 text-primary"><i class="bi bi-people-fill"></i> QUẢN TRỊ TÀI KHOẢN
+                            </h3>
+                            <p class="text-muted small mb-0">Hệ thống quản lý định danh MAPD Tech</p>
+                        </div>
+                        <button class="btn btn-success rounded-pill px-4 shadow-sm fw-bold" data-bs-toggle="modal"
+                            data-bs-target="#addUserModal">
+                            <i class="bi bi-person-plus-fill"></i> THÊM TÀI KHOẢN
+                        </button>
+                    </div>
+
+                    <div class="table-responsive rounded-4 border">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr style="background-color: #3839af !important;">
+                                    <th class="text-center">Mã rút gọn</th>
+                                    <th>Họ tên & Tên đăng nhập</th>
+                                    <th class="text-center">Quyền hạn</th>
+                                    <th class="text-center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% dsTaiKhoan.forEach(row=> {
+                                    // Kiểm tra xem dòng này có phải là tài khoản đang đăng nhập không
+                                    let is_me = (row._id.toString() == session.maTaiKhoan);
+                                    %>
+                                    <tr
+                                        class="<%= is_me ? 'table-warning border-start border-5 border-warning' : '' %>">
+                                        <td class="text-center fw-bold text-muted small">#<%=
+                                                row._id.toString().substring(19) %>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold text-primary">
+                                                <%= row.tenTaiKhoan %>
+                                            </div>
+                                            <div class="small text-muted">
+                                                @<%= row.tenDangNhap %>
+                                                    <% if(is_me) { %><span class="badge bg-dark ms-1">Tài khoản của
+                                                            tôi</span>
+                                                        <% } %>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <% if (row.quyenHan==1) { %>
+                                                <span class="badge bg-danger px-3 rounded-pill shadow-sm">Quản trị
+                                                    viên</span>
+                                                <% } else if (row.quyenHan==2) { %>
+                                                    <span class="badge bg-primary px-3 rounded-pill shadow-sm">Nhân
+                                                        viên</span>
+                                                    <% } else { %>
+                                                        <span
+                                                            class="badge bg-secondary px-3 rounded-pill shadow-sm">Khách
+                                                            hàng</span>
+                                                        <% } %>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group shadow-sm">
+                                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                                    data-bs-toggle="modal" data-bs-target="#editUser<%= row._id %>"
+                                                    title="Chỉnh sửa">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <% if (!is_me) { %>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteUser<%= row._id %>" title="Xóa">
+                                                        <i class="bi bi-trash3-fill"></i>
+                                                    </button>
+                                                    <% } %>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <div class="modal fade" id="editUser<%= row._id %>" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content border-0 shadow-lg rounded-4">
+                                                <form action="/taikhoan/sua/<%= row._id %>" method="POST">
+                                                    <div class="modal-header bg-primary text-white">
+                                                        <h5 class="modal-title fw-bold"><i
+                                                                class="bi bi-person-gear"></i> Cập nhật: <%=
+                                                                row.tenDangNhap %>
+                                                        </h5>
+                                                        <button type="button" class="btn-close btn-close-white"
+                                                            data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body p-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold text-muted small">PHÂN
+                                                                QUYỀN HỆ THỐNG</label>
+                                                            <select name="quyenHan" class="form-select border-2">
+                                                                <option value="1" <%=row.quyenHan==1?'selected':'' %>>1.
+                                                                    Quản trị viên</option>
+                                                                <option value="2" <%=row.quyenHan==2?'selected':'' %>>2.
+                                                                    Nhân viên</option>
+                                                                <option value="3" <%=row.quyenHan==3?'selected':'' %>>3.
+                                                                    Khách hàng</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-0">
+                                                            <label class="form-label fw-bold text-muted small">ĐẶT LẠI
+                                                                MẬT KHẨU MỚI</label>
+                                                            <input type="password" name="matKhau"
+                                                                class="form-control border-2"
+                                                                placeholder="Để trống nếu không muốn thay đổi">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button type="button" class="btn btn-light rounded-pill px-4"
+                                                            data-bs-dismiss="modal">Hủy</button>
+                                                        <button type="submit"
+                                                            class="btn btn-primary rounded-pill px-4 fw-bold">LƯU THAY
+                                                            ĐỔI</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <% if (!is_me) { %>
+                                        <div class="modal fade" id="deleteUser<%= row._id %>" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                                <div class="modal-content border-0 shadow-lg rounded-4 text-center">
+                                                    <form action="/taikhoan/xoa/<%= row._id %>" method="GET">
+                                                        <div class="modal-body p-4">
+                                                            <div class="display-1 text-danger mb-3"><i
+                                                                    class="bi bi-shield-exclamation"></i></div>
+                                                            <h5 class="fw-bold">XÁC NHẬN XÓA?</h5>
+                                                            <p class="text-muted small">Bạn có chắc chắn muốn xóa tài
+                                                                khoản <strong>
+                                                                    <%= row.tenDangNhap %>
+                                                                </strong> khỏi hệ thống?</p>
+                                                            <div class="d-grid gap-2">
+                                                                <button type="submit"
+                                                                    class="btn btn-danger rounded-pill fw-bold py-2">XÓA
+                                                                    NGAY</button>
+                                                                <button type="button"
+                                                                    class="btn btn-light rounded-pill py-2"
+                                                                    data-bs-dismiss="modal">BỎ QUA</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
+
+                                            <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="cotphai"></div>
+            </div>
+
+            <div class="modal fade" id="addUserModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg rounded-4">
+                        <form action="/taikhoan/them" method="POST">
+                            <div class="modal-header bg-success text-white">
+                                <h5 class="modal-title fw-bold"><i class="bi bi-person-plus"></i> Tạo tài khoản mới</h5>
+                                <button type="button" class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold small">HỌ VÀ TÊN</label>
+                                    <input type="text" name="tenTaiKhoan" class="form-control border-2" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold small">TÊN ĐĂNG NHẬP</label>
+                                    <input type="text" name="tenDangNhap" class="form-control border-2" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold small">MẬT KHẨU BAN ĐẦU</label>
+                                    <input type="password" name="matKhau" class="form-control border-2" required>
+                                </div>
+                                <div class="mb-0">
+                                    <label class="form-label fw-bold small">PHÂN QUYỀN TRUY CẬP</label>
+                                    <select name="quyenHan" class="form-select border-2">
+                                        <option value="1">1. Quản trị viên (Admin)</option>
+                                        <option value="2" selected>2. Nhân viên</option>
+                                        <option value="3">3. Khách hàng</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0">
+                                <button type="button" class="btn btn-light rounded-pill px-4"
+                                    data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold">TẠO TÀI
+                                    KHOẢN</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="footer"><%- include('footer') %></div>
+    </div>
+</body>
+<style>
+    #sticky-menu-wrapper {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #khungtrang {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    #header,
+    #sticky-menu-wrapper,
+    #footer {
+        flex: none;
+    }
+
+    #content {
+        flex: 1 0 auto;
+    }
+
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #footer {
+        flex-shrink: 0;
+    }
+
+    .menu-ngang-container {
+        margin-top: 0 !important;
+    }
+
+    .custom-sticky-menu .nav-link {
+        color: #3839af !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: transparent !important;
+    }
+
+    .custom-sticky-menu .nav-link:hover {
+        color: white !important;
+        background-color: #3839af !important;
+        border-radius: 8px;
+    }
+
+    .custom-sticky-menu .nav-link.active {
+        background-color: #3839af !important;
+        color: white !important;
+        border-radius: 8px;
+    }
+
+    .custom-sticky-menu .dropdown-menu {
+        border: none;
+        border-top: 3px solid #3839af;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-sticky-menu .dropdown-item:hover {
+        background-color: rgba(56, 57, 175, 0.1);
+        color: #3839af !important;
+        padding-left: 20px;
+        transition: all 0.2s;
+    }
+
+    #sticky-menu-wrapper {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: white;
+        padding: 5px 0;
+    }
+
+    #content {
+        display: flow-root;
+        width: 100%;
+        min-height: 600px;
+        height: auto !important;
+        padding-bottom: 50px;
+        background-color: #ffffff;
+    }
+
+    .table-warning {
+        background-color: #fff3cd !important;
+        border-left: 5px solid #ffc107;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: none;
+        border-color: #3839af;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</html>

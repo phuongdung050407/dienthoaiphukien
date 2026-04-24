@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hồ sơ cá nhân - MAPD Tech Space</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div id="khungtrang">
+        <%- include('header') %>
+            <div id="sticky-menu-wrapper">
+                <div class="custom-sticky-menu">
+                    <%- include('menungang') %>
+                </div>
+            </div>
+
+            <div id="content">
+                <div id="cottrai"></div>
+                <div id="phangiua" class="container mt-4">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Hồ sơ cá nhân</li>
+                        </ol>
+                    </nav>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card shadow-sm border-0 rounded-4">
+                                <div class="card-header p-4 rounded-top-4 text-white">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-white rounded-circle p-2 me-3">
+                                            <i class="bi bi-person-badge text-primary fs-1"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="mb-0 fw-bold">
+                                                <%= taikhoan.tenTaiKhoan %>
+                                            </h4>
+                                            <small class="opacity-75">Thành viên thân thiết của MAPD Tech Space</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body p-4">
+                                    <h5 class="fw-bold mb-4 border-bottom pb-2">Thông tin tài khoản</h5>
+
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4 text-muted">Họ và tên:</div>
+                                        <div class="col-sm-8 fw-bold">
+                                            <%= taikhoan.tenTaiKhoan %>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4 text-muted">Tên đăng nhập:</div>
+                                        <div class="col-sm-8 text-primary">@<%= taikhoan.tenDangNhap %>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4 text-muted">Loại tài khoản:</div>
+                                        <div class="col-sm-8">
+                                            <% if(taikhoan.quyenHan==1) { %>
+                                                <span class="badge bg-warning text-dark">Quản trị viên</span>
+                                                <% } else if (taikhoan.quyenHan==2) { %>
+                                                    <span class="badge bg-danger text-light">Nhân viên bán hàng</span>
+                                                    <% } else { %>
+                                                        <span class="badge bg-info text-dark">Khách hàng thành
+                                                            viên</span>
+                                                        <% } %>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4 text-muted">Trạng thái:</div>
+                                        <div class="col-sm-8 text-success">
+                                            <i class="bi bi-check-circle-fill"></i> Đang hoạt động
+                                        </div>
+                                    </div>
+
+                                    <%- message %>
+                                        <hr class="my-4">
+
+                                        <div class="d-flex gap-2">
+                                            <a href="/taikhoan/sua-profile" class="btn btn-primary rounded-pill px-4">
+                                                <i class="bi bi-pencil-square"></i> Chỉnh sửa thông tin
+                                            </a>
+
+                                            <% if(taikhoan.quyenHan==3) { %>
+                                                <a href="/lichsu_dathang"
+                                                    class="btn btn-outline-secondary rounded-pill px-4">
+                                                    <i class="bi bi-clock-history"></i> Lịch sử mua hàng
+                                                </a>
+                                                <a href="/taikhoan/xoa-profile"
+                                                    class="btn btn-outline-danger rounded-pill px-4"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản? Thao tác này không thể hoàn tác!')">
+                                                    <i class="bi bi-trash"></i> Xóa tài khoản
+                                                </a>
+                                                <% } %>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-light border mt-4 shadow-sm">
+                                <h6 class="fw-bold text-dark"><i class="bi bi-shield-lock me-2"></i>Bảo mật tài khoản
+                                </h6>
+                                <small class="text-muted">
+                                    Bạn nên thường xuyên thay đổi mật khẩu để bảo vệ thông tin cá nhân và giỏ hàng của
+                                    mình tại <strong>MAPD</strong>.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="cotphai"></div>
+            </div>
+
+            <div id="footer">
+                <%- include('footer') %>
+            </div>
+    </div>
+
+</body>
+<style>
+    #sticky-menu-wrapper {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #khungtrang {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    #header,
+    #sticky-menu-wrapper,
+    #footer {
+        flex: none;
+    }
+
+    #content {
+        flex: 1 0 auto;
+    }
+
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #footer {
+        flex-shrink: 0;
+    }
+
+    .menu-ngang-container {
+        margin-top: 0 !important;
+    }
+
+    .custom-sticky-menu .nav-link {
+        color: #3839af !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: transparent !important;
+    }
+
+    .custom-sticky-menu .nav-link:hover {
+        color: white !important;
+        background-color: #3839af !important;
+        border-radius: 8px;
+    }
+
+    .custom-sticky-menu .nav-link.active {
+        background-color: #3839af !important;
+        color: white !important;
+        border-radius: 8px;
+    }
+
+    .custom-sticky-menu .dropdown-menu {
+        border: none;
+        border-top: 3px solid #3839af;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-sticky-menu .dropdown-item:hover {
+        background-color: rgba(56, 57, 175, 0.1);
+        color: #3839af !important;
+        padding-left: 20px;
+        transition: all 0.2s;
+    }
+
+    #sticky-menu-wrapper {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: white;
+        padding: 5px 0;
+    }
+
+    #content {
+        display: flow-root;
+        width: 100%;
+        min-height: 600px;
+        height: auto !important;
+        padding-bottom: 50px;
+        background-color: #ffffff;
+    }
+
+    .card-header {
+        background: linear-gradient(45deg, #3839af, #5555e6) !important;
+    }
+
+    .breadcrumb {
+        margin-bottom: 25px;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</html>

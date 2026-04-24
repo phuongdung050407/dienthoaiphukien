@@ -1,0 +1,396 @@
+/* ============================================================
+   1. CẤU TRÚC CHUNG (LAYOUT & RESET)
+   ============================================================ */
+body {
+    background-color: #f4f6f9;
+    /* Màu nền xám nhạt cho sang */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#khungtrang {
+    background: transparent;
+}
+
+#header {
+    overflow: visible !important;
+    height: 110px;
+    width: auto;
+    position: relative;
+    z-index: 1050;
+}
+
+#content {
+    min-height: 800px;
+    /* Thay đổi từ 2000px cố định sang min-height để linh hoạt */
+    width: auto;
+}
+
+#cottrai {
+    margin-top: 100px;
+    float: left;
+    width: 150px;
+    height: auto;
+    padding-top: 8px;
+}
+
+#phangiua {
+    margin-top: 16px;
+    float: left;
+    width: 1220px;
+}
+
+#cotphai {
+    float: right;
+    width: 150px;
+}
+
+#footer {
+    clear: both;
+    text-align: center;
+}
+
+/* ============================================================
+   2. HEADER & NAVIGATION (NAVBAR)
+   ============================================================ */
+.navbar {
+    z-index: 1050;
+}
+
+.container-fluid {
+    background-color: #3839af !important;
+}
+
+.nav-link {
+    color: white !important;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: #ffcc00 !important;
+}
+
+.dropdown-menu {
+    background-color: white !important;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    color: #3839af !important;
+}
+
+.dropdown-item:hover {
+    background-color: #ffcc00 !important;
+    color: #3839af !important;
+}
+
+#txtSearch:focus {
+    border: medium solid white !important;
+}
+
+#txtSearch:focus::placeholder {
+    color: transparent !important;
+}
+
+/* Button styles trong Header */
+button.btn.btn-outline-success,
+.btn-outline-success {
+    background-color: #3839af !important;
+    color: white !important;
+    font-size: 15px;
+    font-weight: bold;
+    border: 2px solid white !important;
+    border-radius: 50px;
+    margin: 3px;
+}
+
+button.btn.btn-outline-success.btn-signin {
+    background-color: #ffcc00 !important;
+    color: #3839af !important;
+    font-size: 15px;
+    font-weight: bold;
+    border: 2px solid #ffcc00 !important;
+    border-radius: 50px;
+    margin: 3px;
+}
+
+button.btn.btn-outline-success:hover {
+    background-color: #ffcc00 !important;
+    color: #3839af !important;
+    border: 2px solid #3839af !important;
+}
+
+#menungang {
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+#menungang a {
+    color: white !important;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #3839af !important;
+}
+
+button.btn.btn-warning:hover {
+    background-color: #3839af !important;
+    color: #ffcc00 !important;
+    border-color: #d39e00 !important;
+    transition: 0.3s;
+}
+
+/* ============================================================
+   3. CÁC THÀNH PHẦN NỘI DUNG (CARDS, SLIDESHOW, BREADCRUMB)
+   ============================================================ */
+
+/* Breadcrumb */
+.breadcrumb {
+    background: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.breadcrumb-item {
+    margin-left: 5px;
+}
+
+/* Card sản phẩm chung */
+.product-card {
+    border: none;
+    border-radius: 15px !important;
+    transition: all 0.3s ease;
+    background: #fff;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12) !important;
+}
+
+.product-card .card-title {
+    font-size: 0.95rem;
+    color: #333;
+    height: 42px;
+    overflow: hidden;
+}
+
+.product-card .btn-primary {
+    background: #3f3fbf;
+    border: none;
+    padding: 8px;
+    font-weight: 600;
+}
+
+/* Sản phẩm nổi bật (Spotlight) */
+#sanphamnoibat {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+#sanphamnoibat h1 {
+    color: #3f3fbf;
+    font-size: 2.2rem;
+    margin-left: 5px;
+    font-weight: bold !important;
+    border-bottom: medium solid #3839af !important;
+    padding: 5px;
+}
+
+/* Slideshow (Carousel) */
+.carousel {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-item img {
+    height: 400px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* Mũi tên Slideshow */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    padding: 20px;
+    background-size: 60%;
+    backdrop-filter: blur(5px);
+    filter: drop-shadow(0 0 2px black);
+}
+
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================================
+   4. CHI TIẾT SẢN PHẨM (SAN PHAM CHI TIET)
+   ============================================================ */
+.thumb-img:hover {
+    border: 2px solid #0d6efd;
+    transition: 0.2s;
+}
+
+.main-img-container {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.specs-box table td {
+    vertical-align: middle;
+}
+
+/* ============================================================
+   5. TRANG GIỚI THIỆU & GIỎ HÀNG
+   ============================================================ */
+/* Giới thiệu */
+.italic {
+    font-style: italic;
+    color: #6c757d;
+}
+
+/* Hiệu ứng hover cho card thông tin trong trang giới thiệu */
+.card-hover-effect:hover,
+#phangiua .card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+
+/* Giỏ hàng */
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+/* ============================================================
+   6. FOOTER
+   ============================================================ */
+.hover-link:hover {
+    color: #0d6efd !important;
+    padding-left: 5px;
+    transition: 0.3s;
+}
+
+footer i {
+    vertical-align: middle;
+}
+
+#btn-back-to-top {
+    width: 45px;
+    height: 45px;
+    z-index: 1000;
+}
+
+/* ============================================================
+   7. TIỆN ÍCH KHÁC (UTILITIES)
+   ============================================================ */
+h1,
+h3,
+p {
+    margin-left: 5px;
+    padding: 5px;
+}
+
+.ten-icon {
+    text-align: center;
+    font-weight: bold !important;
+}
+
+.list-group {
+    border-radius: 5px;
+}
+
+.list-group-item.active {
+    background-color: #3839af;
+    color: white;
+}
+
+/* Tối ưu hiển thị cho mobile nếu cần */
+@media (max-width: 768px) {
+    #phangiua {
+        width: 100%;
+    }
+
+    #cottrai,
+    #cotphai {
+        display: none;
+        /* Ẩn cột trái phải trên màn hình nhỏ */
+    }
+
+    #menungang {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+/* Style cho các thẻ chủ đề tin tức */
+.topic-tag {
+    border-width: 2px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+.topic-tag:hover {
+    background-color: #3839af !important;
+    /* Màu xanh thương hiệu của bạn */
+    color: #fff !important;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(56, 57, 175, 0.3) !important;
+}
+
+/* Hiệu ứng cho icon trong thẻ */
+.topic-tag i {
+    transition: transform 0.3s ease;
+}
+
+.topic-tag:hover i {
+    transform: rotate(15deg) scale(1.2);
+}
+
+/* Thiết lập cho Header Wrapper */
+#header-wrapper {
+    transition: transform 0.4s ease-in-out;
+    /* Hiệu ứng trôi mượt */
+    position: relative;
+    z-index: 1030;
+    background-color: #3839af;
+}
+
+/* Thiết lập cho Menu Wrapper */
+#menungang-wrapper {
+    position: relative;
+    z-index: 1020;
+    transition: all 0.3s ease;
+}
+
+/* Class sẽ được JS thêm vào khi cuộn qua Slideshow */
+.sticky-top-fixed {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1040 !important;
+}
+
+/* Đảm bảo khung trang không bị giật khi menu chuyển sang fixed */
+.is-home .sticky-top-fixed+#content {
+    padding-top: 60px;
+    /* Bằng chiều cao của thanh menu ngang */
+}
+
+/* Tùy chỉnh màu sắc đồng bộ */
+#menungang {
+    background-color: white;
+}
