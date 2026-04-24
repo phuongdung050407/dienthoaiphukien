@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var DienThoai = require('../models/dienthoai');
+var HangDienThoai = require('../models/hangdienthoai');
 var PhuKien = require('../models/phukien');
+var LoaiPhuKien = require('../models/loaiphukien');
 
 router.get('/:type', async (req, res) => {
     var type = req.params.type;
@@ -9,9 +11,9 @@ router.get('/:type', async (req, res) => {
 
     try {
         if (type === 'dienthoai') {
-            var data = await DienThoai.find().populate('maHangDienThoai').exec();
+            var data = await DienThoai.find().populate('HangDienThoai').exec();
         } else {
-            var data = await PhuKien.find().populate('maLoaiPhuKien').exec();
+            var data = await PhuKien.find().populate('LoaiPhuKien').exec();
         }
 
         res.render('danhmuc', {
@@ -31,11 +33,11 @@ router.get('/:type/:id', async (req, res) => {
 
     try {
         if (type === 'dienthoai') {
-            var data = await DienThoai.find({ maHangDienThoai: id }).populate('maHangDienThoai').lean();
-            if (data.length > 0) pageTitle = data[0].maHangDienThoai.tenHangDienThoai;
+            var data = await DienThoai.find({ maHangDienThoai: id }).populate('HangDienThoai').lean();
+            if (data.length > 0) pageTitle = data[0].HangDienThoai.tenHangDienThoai;
         } else {
-            var data = await PhuKien.find({ maLoaiPhuKien: id }).populate('maLoaiPhuKien').lean();
-            if (data.length > 0) pageTitle = data[0].maLoaiPhuKien.tenLoaiPhuKien;
+            var data = await PhuKien.find({ maLoaiPhuKien: id }).populate('LoaiPhuKien').lean();
+            if (data.length > 0) pageTitle = data[0].LoaiPhuKien.tenLoaiPhuKien;
         }
 
         res.render('danhmuc', {

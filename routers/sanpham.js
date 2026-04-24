@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var DienThoai = require('../models/dienthoai');
+var HangDienThoai = require('../models/hangdienthoai');
 var PhuKien = require('../models/phukien');
+var LoaiPhuKien = require('../models/loaiphukien');
 
 router.get('/ql/:type', async (req, res) => {
     try {
@@ -16,16 +18,16 @@ router.get('/ql/:type', async (req, res) => {
         if (type === 'dienthoai') {
             totalRows = await DienThoai.countDocuments();
             data = await DienThoai.find()
-                .populate('maHangDienThoai')
-                .populate('maTrangThai')
+                .populate('HangDienThoai')
+                .populate('TrangThai')
                 .sort({ _id: -1 })
                 .skip(skip)
                 .limit(limit);
         } else {
             totalRows = await PhuKien.countDocuments();
             data = await PhuKien.find()
-                .populate('maLoaiPhuKien')
-                .populate('maTrangThai')
+                .populate('LoaiPhuKien')
+                .populate('TrangThai')
                 .sort({ _id: -1 })
                 .skip(skip)
                 .limit(limit);
@@ -102,11 +104,11 @@ router.get('/xoa/:type/:id', async (req, res) => {
     }
 });
 
-router.get('/sanpham_chitiet/:id/:type', async (req, res) => {
+router.get('/chitiet/:id/:type', async (req, res) => {
     var { id, type } = req.params;
     var sp = (type == 'dienthoai')
-        ? await DienThoai.findById(id).populate('maHangDienThoai')
-        : await PhuKien.findById(id).populate('maLoaiPhuKien');
+        ? await DienThoai.findById(id).populate('HangDienThoai')
+        : await PhuKien.findById(id).populate('LoaiPhuKien');
 
     res.render('sanpham_chitiet', {
         title: 'Chi tiết sản phẩm',

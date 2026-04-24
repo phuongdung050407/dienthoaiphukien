@@ -71,14 +71,11 @@
                                             <% if (row.quyenHan==1) { %>
                                                 <span class="badge bg-danger px-3 rounded-pill shadow-sm">Quản trị
                                                     viên</span>
-                                                <% } else if (row.quyenHan==2) { %>
+                                                <% } else { %>
                                                     <span class="badge bg-primary px-3 rounded-pill shadow-sm">Nhân
                                                         viên</span>
-                                                    <% } else { %>
-                                                        <span
-                                                            class="badge bg-secondary px-3 rounded-pill shadow-sm">Khách
-                                                            hàng</span>
-                                                        <% } %>
+
+                                                    <% } %>
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group shadow-sm">
@@ -119,8 +116,6 @@
                                                                     Quản trị viên</option>
                                                                 <option value="2" <%=row.quyenHan==2?'selected':'' %>>2.
                                                                     Nhân viên</option>
-                                                                <option value="3" <%=row.quyenHan==3?'selected':'' %>>3.
-                                                                    Khách hàng</option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-0">
@@ -206,7 +201,6 @@
                                     <select name="quyenHan" class="form-select border-2">
                                         <option value="1">1. Quản trị viên (Admin)</option>
                                         <option value="2" selected>2. Nhân viên</option>
-                                        <option value="3">3. Khách hàng</option>
                                     </select>
                                 </div>
                             </div>
